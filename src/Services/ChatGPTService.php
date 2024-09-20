@@ -1,6 +1,6 @@
 <?php
 
-namespace Iutrace\ChatGPTS\Services;
+namespace Iutrace\ChatGPT\Services;
 
 use GuzzleHttp\Client;
 

@@ -3,7 +3,7 @@
 namespace Iutrace\ChatGPT\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Iutrace\ChatGPTS\Services\ChatGPTService;
+use Iutrace\ChatGPT\Services\ChatGPTService;
 
 class ChatGPTServiceProvider extends ServiceProvider
 {
