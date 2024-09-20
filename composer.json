@@ -1,0 +1,27 @@
+{
+    "name": "iutrace/laravel-chatgpt",
+    "homepage": "https://github.com/iutrace/laravel-chatgpt",
+    "keywords": [
+        "iutrace",
+        "laravel-chatgpt"
+    ],
+    "require": {
+        "illuminate/support": "^8.83",
+        "guzzlehttp/guzzle": "^7.0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Iutrace\\ChatGPT\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Iutrace\\ChatGPT\\Providers\\ChatGPTServiceProvider"
+            ],
+            "aliases": {
+                "ChatGPT": "Iutrace\\ChatGPT\\Facades\\ChatGPT"
+            }
+        }
+    }
+}
