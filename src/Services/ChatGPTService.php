@@ -17,24 +17,37 @@ class ChatGPTService
                 'Content-Type'  => 'application/json',
             ],
         ]);
-
     }
     
-    public function sendPrompt(string $prompt)
+    public function sendPrompt(string $prompt, $image = null)
     {
-        $response = $this->client->post('/v1/chat/completions', [
-            'json' => [
-                'model' => 'gpt-4',
-                'messages' => [
-                    ['role' => 'system', 'content' => 'You are a helpful assistant.'],
-                    ['role' => 'user', 'content' => $prompt],
+
+        $payload = [
+            'model' => 'gpt-4o-mini',
+            'messages' => [
+                [   
+                    'role' => 'user', 
+                    'content' => [
+                        [
+                            'type' => 'text',
+                            'text' => $prompt,
+                        ],
+                        !$image ?: [
+                            'type' => 'image_url',
+                            'image_url' => [
+                                'url' => $image,
+                            ]
+                        ]
+                    ],
                 ],
-                'max_tokens' => 100,
             ],
+        ];
+
+        $response = $this->client->post('/v1/chat/completions', [
+            'json' => $payload,
         ]);
 
-        $data = json_decode($response->getBody(), true);
-        
-        return $data;
+        return json_decode($response->getBody()->getContents(), true);
+
     }
 }
