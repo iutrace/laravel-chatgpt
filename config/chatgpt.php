@@ -26,4 +26,18 @@ return [
     */
 
     'api_key' => env('CHATGPT_API_KEY', ''),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Reduce the max_tokens to match the size of your completions
+    |--------------------------------------------------------------------------
+    |
+    | Your rate limit is calculated as the maximum of max_tokens and the
+    | estimated number of tokens based on the character count of your request.
+    | Try to set the max_tokens value as close to your expected response size as possible.
+    |
+    */
+
+    'max_tokens' => env('CHATGPT_MAX_TOKENS', 300),
+    
 ];
