@@ -19,35 +19,38 @@ class ChatGPTService
         ]);
     }
     
-    public function sendPrompt(string $prompt, $image = null)
+    public function sendPrompt(string $prompt, $imageContent = null, $mimeType = null)
     {
+
         $payload = [
             'model' => 'gpt-4o-mini',
             'max_tokens' => config('chatgpt.max_tokens'),
             'messages' => [
-                [   
-                    'role' => 'user', 
+                [
+                    'role' => 'user',
                     'content' => [
                         [
                             'type' => 'text',
                             'text' => $prompt,
                         ],
-                        !$image ?: [
-                            'type' => 'image_url',
-                            'image_url' => [
-                                'url' => $image,
-                            ]
-                        ]
                     ],
                 ],
             ],
         ];
+
+        if ($imageContent && $mimeType) {
+            $payload['messages'][0]['content'][] = [
+                'type' => 'image_url',
+                'image_url' => [
+                    'url' => 'data:' . $mimeType . ';base64,' . base64_encode($imageContent),
+                ]
+            ];
+        }
 
         $response = $this->client->post('/v1/chat/completions', [
             'json' => $payload,
         ]);
 
         return json_decode($response->getBody()->getContents(), true);
-
     }
 }
