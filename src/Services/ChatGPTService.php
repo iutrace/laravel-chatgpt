@@ -2,6 +2,7 @@
 
 namespace Iutrace\ChatGPT\Services;
 
+use Exception;
 use GuzzleHttp\Client;
 
 class ChatGPTService
@@ -22,6 +23,10 @@ class ChatGPTService
     public function sendPrompt(string $prompt, $imageContent = null, $mimeType = null)
     {
 
+        if ($imageContent && !$mimeType) {
+            throw new Exception("Mimetype missing");
+        }
+        
         $payload = [
             'model' => 'gpt-4o-mini',
             'max_tokens' => config('chatgpt.max_tokens'),
@@ -38,7 +43,7 @@ class ChatGPTService
             ],
         ];
 
-        if ($imageContent && $mimeType) {
+        if ($imageContent) {
             $payload['messages'][0]['content'][] = [
                 'type' => 'image_url',
                 'image_url' => [
@@ -51,6 +56,6 @@ class ChatGPTService
             'json' => $payload,
         ]);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode($response->getBody()->getContents(), true)['choices'][0]['message']['content'];
     }
 }
