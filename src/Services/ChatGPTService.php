@@ -28,7 +28,7 @@ class ChatGPTService
         }
         
         $payload = [
-            'model' => 'gpt-4o-mini',
+            'model' => 'gpt-4o',
             'max_tokens' => config('chatgpt.max_tokens'),
             'messages' => [
                 [
