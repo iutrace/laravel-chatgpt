@@ -59,3 +59,4 @@ class ChatGPTService
         return json_decode($response->getBody()->getContents(), true)['choices'][0]['message']['content'];
     }
 }
+
