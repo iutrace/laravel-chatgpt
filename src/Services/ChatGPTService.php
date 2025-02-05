@@ -20,7 +20,7 @@ class ChatGPTService
         ]);
     }
 
-    public function sendPrompt(string $prompt, $imageContent = null, $mimeType = null, string $systemRole = '', float $temperature = 0.7)
+    public function sendPrompt(string $prompt, $imageContent = null, $mimeType = null,  float $temperature = 0.7, string $systemRole = '')
     {
         if ($imageContent && !$mimeType) {
             throw new Exception("Mimetype missing");
