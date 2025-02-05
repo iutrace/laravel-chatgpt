@@ -45,7 +45,7 @@ class ChatGPTService
         ];
 
         if (!empty($systemRole)) {
-            $payload['messages'][1]['content'][] = [
+            $payload['messages'][1][] = [
                 'role' => 'system',
                 'content' => [
                     [
