@@ -19,18 +19,19 @@ class ChatGPTService
             ],
         ]);
     }
-    
-    public function sendPrompt(string $prompt, $imageContent = null, $mimeType = null)
-    {
 
+    public function sendPrompt(string $prompt, $imageContent = null, $mimeType = null,  float $temperature = 0.7, string $systemRole = '')
+    {
         if ($imageContent && !$mimeType) {
             throw new Exception("Mimetype missing");
         }
-        
+
         $payload = [
             'model' => 'gpt-4o',
             'max_tokens' => config('chatgpt.max_tokens'),
+            'temperature' => $temperature,
             'messages' => [
+                
                 [
                     'role' => 'user',
                     'content' => [
@@ -42,6 +43,18 @@ class ChatGPTService
                 ],
             ],
         ];
+
+        if (!empty($systemRole)) {
+            $payload['messages'][1][] = [
+                'role' => 'system',
+                'content' => [
+                    [
+                        'type' => 'text',
+                        'text' => $systemRole,
+                    ],
+                ],
+            ];
+        }
 
         if ($imageContent) {
             $payload['messages'][0]['content'][] = [
