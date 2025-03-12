@@ -31,33 +31,29 @@ class ChatGPTService
             'max_tokens' => config('chatgpt.max_tokens'),
             'temperature' => $temperature,
             'messages' => [
-                
-                [
-                    'role' => 'user',
-                    'content' => [
-                        [
-                            'type' => 'text',
-                            'text' => $prompt,
-                        ],
-                    ],
-                ],
             ],
         ];
 
         if (!empty($systemRole)) {
-            $payload['messages'][1][] = [
+            $payload['messages'][] = [
                 'role' => 'system',
-                'content' => [
-                    [
-                        'type' => 'text',
-                        'text' => $systemRole,
-                    ],
-                ],
+                'content' => $systemRole
             ];
         }
 
+        $payload['messages'][] = [
+            'role' => 'user',
+            'content' => [
+                [
+                    'type' => 'text',
+                    'text' => $prompt,
+                ],
+            ],
+        ];
+
         if ($imageContent) {
-            $payload['messages'][0]['content'][] = [
+            $userMessageIndex = !empty($systemRole) ? 1 : 0;
+            $payload['messages'][$userMessageIndex]['content'][] = [
                 'type' => 'image_url',
                 'image_url' => [
                     'url' => 'data:' . $mimeType . ';base64,' . base64_encode($imageContent),
